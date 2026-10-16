@@ -9,25 +9,33 @@ import {
   renderFullPage,
   renderCataloguePage,
   renderHomePage,
-  renderMessierList
+  renderMessierList,
+  renderNotFound
 } from "./render.js";
 
 const backendDirectory = fileURLToPath(new URL(".", import.meta.url));
 const publicDirectory = join(backendDirectory, "..", "public");
 
+function renderPageOrFragment(request, content) {
+  if (request.headers["hx-request"] === "true") {
+    return content;
+  }
+  return renderFullPage(content);
+}
+
 export async function buildServer(options = {}) {
   const app = Fastify(options);
   await app.register(cors);
-  
+
   app.get("/", async (_request, reply) => {
     reply.type("text/html; charset=utf-8");
-    return renderFullPage(renderHomePage());
+    return renderFullPage(await renderHomePage());
   });
-  
+
   app.get("/health", async () => {
     return { status: 'online' };
   });
-  
+
   app.get("/styles.css", async (_request, reply) => {
     const stylesheet = await readFile(join(publicDirectory, "styles.css"), "utf8");
     reply.type("text/css; charset=utf-8");
@@ -36,44 +44,31 @@ export async function buildServer(options = {}) {
 
   app.get("/catalogue", async (request, reply) => {
     reply.type("text/html; charset=utf-8");
-    const catalogue = renderCataloguePage(messier);
-    if (request.headers["hx-request"] === "true") {
-      return catalogue;
-    }
-    return renderFullPage(catalogue);
+
+    const catalogue = await renderCataloguePage(messier);
+    return renderPageOrFragment(request, catalogue);
   });
 
   app.get("/messier", async (request, reply) => {
     reply.type("text/html; charset=utf-8");
-    const messierList = renderMessierList(messier);
+
     if (request.headers["hx-request"] === "true") {
-      return messierList;
+      return await renderMessierList(messier);
     }
-    return renderFullPage(renderCataloguePage(messier));
+    return renderFullPage(await renderCataloguePage(messier));
   });
 
   app.get("/messier/:id", async (request, reply) => {
     const object = messier.find(({ id }) => id.toLowerCase() === request.params.id.toLowerCase());
     if (!object) {
       reply.code(404).type("text/html; charset=utf-8");
-      const notFound = `
-        <section class="detail-page" aria-labelledby="not-found-title">
-          <h1 id="not-found-title">Objet Messier introuvable</h1>
-          <a class="detail-back" href="/catalogue">← RETOUR AU CATALOGUE</a>
-        </section>
-      `;
-      if (request.headers["hx-request"] === "true") {
-        return notFound;
-      }
-      return renderFullPage(notFound);
+      const notFound = await renderNotFound();
+      return renderPageOrFragment(request, notFound);
     }
 
-    const detail = renderDetail(object);
+    const detail = await renderDetail(object);
     reply.type("text/html; charset=utf-8");
-    if (request.headers["hx-request"] === "true") {
-      return detail;
-    }
-    return renderFullPage(detail);
+    return renderPageOrFragment(request, detail);
   });
 
   return app;
