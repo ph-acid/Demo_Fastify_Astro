@@ -1,4 +1,5 @@
 import Fastify from "fastify";
+import cors from '@fastify/cors';
 import { readFile } from "node:fs/promises";
 import { join } from "node:path";
 import { fileURLToPath } from "node:url";
@@ -16,7 +17,8 @@ const publicDirectory = join(backendDirectory, "..", "public");
 
 export async function buildServer(options = {}) {
   const app = Fastify(options);
-
+  await app.register(cors);
+  
   app.get("/", async (_request, reply) => {
     reply.type("text/html; charset=utf-8");
     return renderFullPage(renderHomePage());
