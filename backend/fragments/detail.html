@@ -1,0 +1,41 @@
+<section class="detail-page" aria-labelledby="object-title">
+  <a
+    class="detail-back"
+    href="/"
+    hx-get="/catalogue"
+    hx-target="#page-content"
+    hx-push-url="/"
+  >
+    <span aria-hidden="true">←</span> RETOUR AU CATALOGUE
+  </a>
+  <div class="detail-layout">
+    <div class="detail-copy">
+      <p class="eyebrow"><span class="eyebrow-line"></span> FICHE D'OBSERVATION</p>
+      <p class="detail-number">{{id}}</p>
+      <h1 id="object-title">{{name}}</h1>
+      <p class="detail-type">{{type}}</p>
+      <p class="detail-description">{{description}}</p>
+      <dl class="detail-facts">
+        <div>
+          <dt>CONSTELLATION</dt>
+          <dd>{{constellation}}</dd>
+        </div>
+        <div>
+          <dt>CATALOGUE</dt>
+          <dd>Messier</dd>
+        </div>
+        <div>
+          <dt>REPÈRE</dt>
+          <dd>{{id}}</dd>
+        </div>
+      </dl>
+    </div>
+    <div class="detail-art" aria-hidden="true">
+      <div class="detail-orbit detail-orbit-one"></div>
+      <div class="detail-orbit detail-orbit-two"></div>
+      <div class="detail-glow"></div>
+      <span class="detail-art-id">{{id}}</span>
+      <span class="detail-art-caption">OBJET CÉLESTE <span>✳</span></span>
+    </div>
+  </div>
+</section>
