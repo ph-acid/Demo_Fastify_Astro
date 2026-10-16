@@ -17,11 +17,15 @@ const publicDirectory = join(backendDirectory, "..", "public");
 export async function buildServer(options = {}) {
   const app = Fastify(options);
 
-  app.get("/", async (_request, reply) => {
+  app.get("/", async () => {
+    return { status: 'online' };
+  });
+  
+  app.get("/health", async (_request, reply) => {
     reply.type("text/html; charset=utf-8");
     return renderFullPage(renderHomePage());
   });
-
+  
   app.get("/styles.css", async (_request, reply) => {
     const stylesheet = await readFile(join(publicDirectory, "styles.css"), "utf8");
     reply.type("text/css; charset=utf-8");
