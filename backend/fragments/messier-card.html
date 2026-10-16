@@ -1,0 +1,20 @@
+<a
+  class="object-card"
+  href="/messier/{{urlId}}"
+  hx-get="/messier/{{urlId}}"
+  hx-target="#page-content"
+  hx-push-url="true"
+  aria-label="Voir le détail de {{name}}"
+>
+  <div class="card-topline">
+    <span class="object-number">{{id}}</span>
+    <span class="object-index">{{index}}</span>
+  </div>
+  <h3>{{name}}</h3>
+  <p class="object-type">{{type}}</p>
+  <p class="object-description">{{description}}</p>
+  <div class="object-location">
+    <span class="location-dot" aria-hidden="true"></span>
+    {{constellation}}
+  </div>
+</a>

@@ -1,0 +1,49 @@
+<section class="hero" aria-labelledby="page-title">
+  <div class="hero-copy">
+    <p class="eyebrow"><span class="eyebrow-line"></span> UN INVENTAIRE COSMIQUE</p>
+    <h1 id="page-title">Le ciel est<br>plus <span>vaste.</span></h1>
+    <p class="hero-description">Dix premières escales dans le catalogue Messier. Nébuleuses, amas d'étoiles et vestiges stellaires à portée de regard.</p>
+    <a class="explore-link" href="#catalogue">
+      <span class="explore-icon" aria-hidden="true">↓</span>
+      EXPLORER LE CATALOGUE
+    </a>
+  </div>
+  <div class="hero-art" aria-hidden="true">
+    <div class="orbit orbit-one"></div>
+    <div class="orbit orbit-two"></div>
+    <div class="orbit orbit-three"></div>
+    <div class="nebula nebula-a"></div>
+    <div class="nebula nebula-b"></div>
+    <div class="hero-star hero-star-a"></div>
+    <div class="hero-star hero-star-b"></div>
+    <div class="hero-star hero-star-c"></div>
+    <div class="hero-star hero-star-d"></div>
+    <div class="hero-star hero-star-e"></div>
+    <div class="hero-star hero-star-f"></div>
+    <span class="art-label art-label-top">RA 05h 34m</span>
+    <span class="art-label art-label-bottom">DISTANCE INFINIE</span>
+    <span class="art-caption">FIG. 01 <span>—</span> CARTOGRAPHIE CÉLESTE</span>
+  </div>
+</section>
+<section class="catalogue" id="catalogue" aria-labelledby="catalogue-title">
+  <div class="section-heading">
+    <div>
+      <p class="eyebrow"><span class="eyebrow-line"></span> LE CATALOGUE</p>
+      <h2 id="catalogue-title">Premières coordonnées<span>.</span></h2>
+    </div>
+    <p class="catalogue-count"><strong>10</strong><span>OBJETS<br>À EXPLORER</span></p>
+  </div>
+  <div
+    class="object-grid"
+    id="messier-list"
+    aria-live="polite"
+    hx-get="/messier"
+    hx-trigger="load"
+    hx-swap="innerHTML"
+  >
+    <p class="loading-message">Chargement du catalogue…</p>
+  </div>
+  <noscript>
+    <p class="noscript-message">Active JavaScript pour charger le catalogue avec HTMX.</p>
+  </noscript>
+</section>
